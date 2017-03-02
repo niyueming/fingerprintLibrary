@@ -11,4 +11,7 @@
 
 <resources>
     <string name="app_name">FingerprintLibrary</string>
+
+    <string name="fp_try_again">再试…</string>
+    <string name="fp_unlock_title">解锁</string>
 </resources>

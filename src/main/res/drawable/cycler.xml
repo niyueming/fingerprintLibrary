@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2017  Ni YueMing<niyueming@163.com>
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
@@ -9,13 +10,11 @@
   ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.nym.fingerprintlibrary">
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false"
+    >
+    <item android:drawable="@mipmap/fingerprint_inner_ring" android:duration="1500" />
+    <item android:drawable="@mipmap/fingerprint_middle_ring" android:duration="1500" />
+    <item android:drawable="@mipmap/fingerprint_outer_ring" android:duration="1500" />
 
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+</animation-list>

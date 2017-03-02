@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2017  Ni YueMing<niyueming@163.com>
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
@@ -9,13 +10,19 @@
   ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.nym.fingerprintlibrary">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#777777"
+    >
 
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+    <item>
+        <shape android:shape="rectangle" >
+                <solid android:color="#00cccccc"  />
+                <corners
+                    android:bottomLeftRadius="4dp"
+                    android:bottomRightRadius="4dp"
+                    android:topLeftRadius="4dp"
+                    android:topRightRadius="4dp"
+                    />
+        </shape>
+    </item>
+</ripple>
