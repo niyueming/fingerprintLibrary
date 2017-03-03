@@ -19,13 +19,18 @@ import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.nym.fingerprintlibrary.FingerPrintUtils;
 import net.nym.fingerprintlibrary.R;
+import net.nym.fingerprintlibrary.util.VibratorUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -79,6 +84,8 @@ public class FingerprintDialog extends Dialog {
         mTitle = txt_title.getText().toString().trim();
         setCanceledOnTouchOutside(false);
 
+        setWindowWidth();
+
         mHandler = new RevisionHandler(this);
         if (!FingerPrintUtils.check(getContext())){
             exit();
@@ -100,6 +107,7 @@ public class FingerprintDialog extends Dialog {
                 System.out.println("helpString=" + helpString+ ",helpCode=" + helpCode);
                 super.onAuthenticationHelp(helpCode, helpString);
                 txt_title.setText(helpString);
+                VibratorUtils.Vibrate(getContext(),200);
                 revision();
             }
 
@@ -122,7 +130,17 @@ public class FingerprintDialog extends Dialog {
             }
         };
         FingerPrintUtils.authenticate(getContext(),null,mCancellationSignal,mAuthenticationCallback);
+    }
 
+    /**
+     * 让dialog的宽为屏幕宽的80%
+     */
+    private void setWindowWidth() {
+        Window dialogWindow = getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        DisplayMetrics d = getContext().getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+        lp.width = (int) (d.widthPixels * 0.8); //
+        dialogWindow.setAttributes(lp);
     }
 
     private void exit() {
@@ -132,10 +150,8 @@ public class FingerprintDialog extends Dialog {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-            AnimationDrawable animationDrawable = (AnimationDrawable) fingerprint.getDrawable();
-            animationDrawable.start();
-        }
+        AnimationDrawable animationDrawable = (AnimationDrawable) fingerprint.getDrawable();
+        animationDrawable.start();
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
@@ -203,7 +219,7 @@ public class FingerprintDialog extends Dialog {
         }
     }
 
-    static interface OnFingerPrintCallback{
+    public static interface OnFingerPrintCallback{
         void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result);
     }
 
