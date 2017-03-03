@@ -46,7 +46,6 @@ public class FingerprintDialog extends Dialog {
     private ImageView fingerprint;
     private OnClickListener mOnClickListener;
     private CancellationSignal mCancellationSignal;
-    private FingerprintManager.AuthenticationCallback mAuthenticationCallback;
     private String mTitle;
     private RevisionHandler mHandler;
     private OnFingerPrintCallback mOnFingerPrintCallback;
@@ -93,7 +92,7 @@ public class FingerprintDialog extends Dialog {
         }
 
         mCancellationSignal = new CancellationSignal();
-        mAuthenticationCallback = new FingerprintManager.AuthenticationCallback() {
+        FingerprintManager.AuthenticationCallback mAuthenticationCallback = new FingerprintManager.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
@@ -104,10 +103,10 @@ public class FingerprintDialog extends Dialog {
 
             @Override
             public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
-                System.out.println("helpString=" + helpString+ ",helpCode=" + helpCode);
+                System.out.println("helpString=" + helpString + ",helpCode=" + helpCode);
                 super.onAuthenticationHelp(helpCode, helpString);
                 txt_title.setText(helpString);
-                VibratorUtils.Vibrate(getContext(),200);
+                VibratorUtils.Vibrate(getContext(), 200);
                 revision();
             }
 
@@ -115,7 +114,7 @@ public class FingerprintDialog extends Dialog {
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 System.out.println("onAuthenticationSucceeded=" + result.toString());
-                if (mOnFingerPrintCallback != null){
+                if (mOnFingerPrintCallback != null) {
                     mOnFingerPrintCallback.onAuthenticationSucceeded(result);
                 }
                 onBackPressed();
@@ -129,7 +128,7 @@ public class FingerprintDialog extends Dialog {
                 revision();
             }
         };
-        FingerPrintUtils.authenticate(getContext(),null,mCancellationSignal,mAuthenticationCallback);
+        FingerPrintUtils.authenticate(getContext(),null,mCancellationSignal, mAuthenticationCallback);
     }
 
     /**
@@ -187,7 +186,7 @@ public class FingerprintDialog extends Dialog {
         super.show();
     }
 
-    public void revision(){
+    private void revision(){
         Message msg = mHandler.obtainMessage();
         msg.what = 0;
         msg.obj = mTitle;
@@ -219,7 +218,7 @@ public class FingerprintDialog extends Dialog {
         }
     }
 
-    public static interface OnFingerPrintCallback{
+    public interface OnFingerPrintCallback{
         void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result);
     }
 
