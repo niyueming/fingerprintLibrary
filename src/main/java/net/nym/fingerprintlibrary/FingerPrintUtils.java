@@ -108,6 +108,25 @@ public class FingerPrintUtils {
         return true;
     }
 
+    public static boolean isHardwareDetected(Context context) {
+        FingerprintManager fingerprintManager = getFingerprintManager(context);
+        if (fingerprintManager == null) {
+            return false;
+        }
+        if (ActivityCompat.checkSelfPermission(context, USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            System.out.println("没有权限：android.permission.USE_FINGERPRINT");
+            return false;
+        }
+        return fingerprintManager.isHardwareDetected();
+    }
+
     public static boolean isHaveFingerprintManager() {
         try {
             Class.forName("android.hardware.fingerprint.FingerprintManager"); // 通过反射判断是否存在该类
